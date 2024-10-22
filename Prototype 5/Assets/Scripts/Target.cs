@@ -9,21 +9,36 @@ public class Target : MonoBehaviour
     public int upLimit;
     public int rotationValue;
     public float positionX;
+    private GameManager gameManager;
+    public int pointValue;
+    public ParticleSystem explosionParticle;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.AddForce (RandomForce(), ForceMode.Impulse);
         rb.AddTorque(RandomTorque(), RandomTorque(),RandomTorque(), ForceMode.Impulse);
         transform.position = RandomPos();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     private void OnMouseDown()
     {
-        Destroy(gameObject);
+        if (gameManager.isGameActive)
+        {
+            Destroy(gameObject);
+            gameManager.UpdateScore(pointValue);
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+        }
+        
     }
     private void OnTriggerEnter(Collider other)
     {
         Destroy (gameObject);
+        if (!gameObject.CompareTag("Bad"))
+        {
+            gameManager.GameOver();
+        }
+       
     }
     Vector3 RandomForce()
     {

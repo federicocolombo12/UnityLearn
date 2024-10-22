@@ -15,12 +15,16 @@ public class PlayerController : MonoBehaviour
     public GameObject projectile;
     public bool isPowerupActive = false;
     public GameObject[] enemyArray;
-    private bool isDead;
+    public bool isDead;
+    private SpriteRenderer playerSprite;
+    private Animator playerAnim;
 
     void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
         isDead = false;
+        playerSprite = GetComponent<SpriteRenderer>();
+        playerAnim = GetComponent<Animator>();
         
     }
 
@@ -30,6 +34,7 @@ public class PlayerController : MonoBehaviour
         enemyArray = GameObject.FindGameObjectsWithTag("Enemy");// Finds all enemies in the scene
         PlayerMovement();
         PlayerShoot();
+        playerAnim.SetBool("onGround", isOnGround);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -63,6 +68,8 @@ public class PlayerController : MonoBehaviour
             isOnGround = false;
             playerRB.AddForce(Vector2.up * jumpStrengt, ForceMode2D.Impulse);
             jumpCount++;
+            
+            
         }
 
         // Slash/Dash
@@ -70,6 +77,14 @@ public class PlayerController : MonoBehaviour
         {
             playerRB.AddForce(Vector2.right * slashSpeed * horizontalSpeed, ForceMode2D.Impulse);
             slashCount++;
+        }
+        if (horizontalSpeed < 0)
+        {
+            playerSprite.flipX = true;
+        }
+        else if (horizontalSpeed > 0)
+        {
+            playerSprite.flipX = false;
         }
     }
 

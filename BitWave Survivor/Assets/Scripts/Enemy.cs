@@ -15,8 +15,12 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        direction = player.transform.position - transform.position;
-        transform.Translate(direction.normalized * enemySpeed * Time.deltaTime);
+        if (!player.GetComponent<PlayerController>().isDead)
+        {
+            direction = player.transform.position - transform.position;
+            transform.Translate(direction.normalized * enemySpeed * Time.deltaTime);
+        }
+        
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
