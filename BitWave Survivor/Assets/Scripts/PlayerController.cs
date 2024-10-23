@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public bool isDead;
     private SpriteRenderer playerSprite;
     private Animator playerAnim;
+    public GameObject gunPrefab;
 
     void Start()
     {
@@ -91,13 +93,14 @@ public class PlayerController : MonoBehaviour
     void PlayerShoot()
 
     {
-        Vector2 spawnLocation = transform.position;
-        spawnLocation.x += 0.6f;
+        Vector2 spawnLocation = gunPrefab.gameObject.transform.position;
+        
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && horizontalSpeed != 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) )
         {
             Instantiate(projectile, spawnLocation, projectile.transform.rotation);
         }
+        
     }
     IEnumerator PowerUpTimer()
     {

@@ -10,12 +10,18 @@ public class ProjectileScript : MonoBehaviour
     public float projectileSpeed;
     public bool isRight;
     private float limitPosition=30;
+    private int bulletDirection;
+    private SpriteRenderer playerRenderer;
+    private bool playerFlip;
     
     void Start()
     {
         player = GameObject.Find("Player");
         playerScript = player.GetComponent<PlayerController>();
         playerDirection = playerScript.horizontalSpeed;
+        playerRenderer = player.GetComponent<SpriteRenderer>();
+        playerFlip=playerRenderer.flipX;
+
 
     }
 
@@ -24,6 +30,7 @@ public class ProjectileScript : MonoBehaviour
 
 
     {
+        
         CheckDirection();
         
         if (transform.position.x > limitPosition)
@@ -38,13 +45,15 @@ public class ProjectileScript : MonoBehaviour
     void CheckDirection()
     {
         
-        if (playerDirection > 0)
+        if (!playerFlip)
         {
             isRight = true;
+            
         }
         else
         {
             isRight = false;
+            
         }
         if (isRight)
         {
@@ -54,6 +63,8 @@ public class ProjectileScript : MonoBehaviour
         {
             transform.Translate(Vector2.down * -projectileSpeed);
         }
+       
+        
     }
     
 }
