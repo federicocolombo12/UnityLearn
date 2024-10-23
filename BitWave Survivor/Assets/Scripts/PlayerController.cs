@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public bool isDead;
     private SpriteRenderer playerSprite;
     private Animator playerAnim;
+    private float projectileSpawn = 1f;
     
 
     void Start()
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
         PlayerMovement();
         PlayerShoot();
         playerAnim.SetBool("onGround", isOnGround);
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("You're Dead!!!"); 
             isDead=true;
+            playerAnim.SetBool("isDead", true);
         }
     }
 
@@ -60,12 +63,15 @@ public class PlayerController : MonoBehaviour
         {
             horizontalSpeed = Input.GetAxis("Horizontal");
             transform.Translate(Vector2.right * horizontalSpeed * Time.deltaTime * speed);
-        }
-        
-        
-
-        // Jump
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
+            if (horizontalSpeed != 0)
+            {
+                playerAnim.SetFloat("PlayerSpeed", 1);
+            }
+            else
+            {
+                playerAnim.SetFloat("PlayerSpeed", 0);
+            }
+            if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
         {
             isOnGround = false;
             playerRB.AddForce(Vector2.up * jumpStrengt, ForceMode2D.Impulse);
@@ -88,6 +94,12 @@ public class PlayerController : MonoBehaviour
         {
             playerSprite.flipX = false;
         }
+        }
+        
+        
+
+        // Jump
+        
     }
 
     void PlayerShoot()
@@ -95,14 +107,27 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 spawnLocation = transform.position;
         
+        if (playerSprite.flipX)
+        {
+            spawnLocation += new Vector2(-projectileSpawn * 2, 0);
+        }
+        else if (!playerSprite.flipX)
+        {
+            spawnLocation += new Vector2(projectileSpawn * 2, 0);
+        }
         
 
         if (Input.GetKeyDown(KeyCode.Mouse0) )
         {
-            playerAnim.SetBool("isShooting", true);
+            
             Instantiate(projectile, spawnLocation, projectile.transform.rotation);
+            playerAnim.SetBool("isShooting", true);
         }
+        else 
+    {
         playerAnim.SetBool("isShooting", false);
+    }
+        
         
     }
     IEnumerator PowerUpTimer()
