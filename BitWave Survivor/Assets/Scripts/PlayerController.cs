@@ -95,11 +95,14 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 spawnLocation = transform.position;
         
+        
 
         if (Input.GetKeyDown(KeyCode.Mouse0) )
         {
+            playerAnim.SetBool("isShooting", true);
             Instantiate(projectile, spawnLocation, projectile.transform.rotation);
         }
+        playerAnim.SetBool("isShooting", false);
         
     }
     IEnumerator PowerUpTimer()
