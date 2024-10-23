@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public bool isDead;
     private SpriteRenderer playerSprite;
     private Animator playerAnim;
-    public GameObject gunPrefab;
+    
 
     void Start()
     {
@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
     void PlayerShoot()
 
     {
-        Vector2 spawnLocation = gunPrefab.gameObject.transform.position;
+        Vector2 spawnLocation = transform.position;
         
 
         if (Input.GetKeyDown(KeyCode.Mouse0) )
