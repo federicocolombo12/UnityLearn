@@ -13,14 +13,24 @@ namespace c02.colombo.federico
         public float rotationSpeed = 10f;
         // A Movement Speed
         public float movementSpeed = 10f;
-        private float horizontalMovement;
+        public float horizontalMovement;
         private float verticalMovement;
+        private bool isMoving = false;
 
         void Update()
         {
+            
             //Get the Input using Input.GetAxis() & assign the values to a new direction Vector3
             horizontalMovement = Input.GetAxis("Horizontal");
             verticalMovement = Input.GetAxis("Vertical");
+            if (horizontalMovement != 0 || verticalMovement != 0)
+            {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
             Vector3 direction = new Vector3(horizontalMovement, 0, verticalMovement);
 
             //Compute direction According to Camera Orientation (use function TransformDirection)
@@ -32,7 +42,11 @@ namespace c02.colombo.federico
             //Rotate the object, you can use Quaternion.LookRotation() function.
             transform.rotation = Quaternion.LookRotation(newDirection);
             //Translate along forward
-            transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
+            if (isMoving)
+            {
+                transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
+            }
+            
         }
     }
 }
