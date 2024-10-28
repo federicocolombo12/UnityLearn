@@ -9,7 +9,7 @@ namespace c02.colombo.federico
         //What do you need?
         // A reference to the Character GameObject
         // A variable to store the minimum distance
-        public GameObject character;
+        private GameObject character;
         public Vector3 randomPos;
         public float minDistance = 10f;
         public float distance;
@@ -19,7 +19,10 @@ namespace c02.colombo.federico
         {
             
             RandomSpawnPos();
-
+            //Get the reference to the Character GameObject
+            //If you don't know how to do it, try to use the function GameObject.Find();
+             character = GameObject.Find("ThirdPersonMovement");
+            //Reference: https://docs.unity3d.com/ScriptReference/GameObject.Find.html
         }
 
         void Update()
