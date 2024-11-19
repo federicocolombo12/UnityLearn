@@ -3335,6 +3335,7 @@ MonoBehaviour:
   cam: {fileID: 1312140137}
   rotationSpeed: 10
   movementSpeed: 10
+  horizontalMovement: 0
 --- !u!4 &1613508437065098302
 Transform:
   m_ObjectHideFlags: 0
@@ -3453,10 +3454,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f065a547986a8545b17d30c5eda0625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 926779168956564837}
   randomPos: {x: 0, y: 0, z: 0}
   minDistance: 5
-  distance: 0
+  distance: 2
+  maxAttempts: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
