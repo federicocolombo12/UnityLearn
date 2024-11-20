@@ -15,7 +15,7 @@ public class GameInputScript : MonoBehaviour
         {
             rb = gameObject.AddComponent<Rigidbody>();
         }
-        rb.useGravity = false; // Disabilita la gravit‡ all'inizio
+        rb.useGravity = false; // Disabilita la gravit√† all'inizio
     }
 
     void Update()
@@ -40,23 +40,13 @@ public class GameInputScript : MonoBehaviour
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(transform.position).z));
         offset = transform.position - worldPos;
         isDragging = true;
-        rb.useGravity = false; // Disabilita la gravit‡ mentre si trascina
+        rb.useGravity = false; // Disabilita la gravit√† mentre si trascina
         rb.velocity = Vector3.zero; // Ferma il movimento dell'oggetto
-    }
-
-    private void OnMouseDrag()
-    {
-        if (isDragging)
-        {
-            Vector3 screenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(transform.position).z);
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos) + offset;
-            transform.position = worldPos;
-        }
     }
 
     private void OnMouseUp()
     {
         isDragging = false;
-        rb.useGravity = true; // Abilita la gravit‡ quando il mouse viene rilasciato
+        rb.useGravity = true; // Abilita la gravit√† quando il mouse viene rilasciato
     }
 }
