@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 namespace c03.exercise
 {
@@ -9,8 +12,9 @@ namespace c03.exercise
         //Define here all the variables you will be needing in the script and also all the objects you with to set a reference via the inspector
         public GameObject bullet;
         public GameObject target;
-        private Transform bulletOrigin;
-        [SerializeField] private int viewDistance = 10;
+        public Transform BulletTransform;
+        
+        [SerializeField] private float viewDistance = 10f;
         [SerializeField] private float viewAngle = 45f;
         [SerializeField] private LayerMask obstacleLayer;
         [SerializeField] private float rotationSpeed = 60f;
@@ -22,11 +26,11 @@ namespace c03.exercise
 
         }
 
-        void Update()
+        private void Update()
         {
             // Constantly Rotate Tower if Target is NOT in Sight
             //You can use the function transform.Rotate(): https://docs.unity3d.com/ScriptReference/Transform.Rotate.html
-            if (!IsTargetVisible(/* Some varialbes...*/))
+            if (!IsTargetVisible())
             {
                 transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
                 CancelInvoke("Shoot");
@@ -59,12 +63,12 @@ namespace c03.exercise
         private void Shoot()
         {
 
-            Vector3 bulletOrigin = GameObject.Find("RayOrigin").transform.position;
+            Vector3 bulletOrigin = BulletTransform.position;
             GameObject bulletIstance=Instantiate(bullet, bulletOrigin, bullet.transform.rotation);
-            Vector3 direction = target.transform.position - transform.position;
-            bulletIstance.GetComponent<Rigidbody>().AddForce(direction * bulletSpeed);
-
-            Destroy(bulletIstance, 3f); // Destroy bullet after 3 seconds
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            bulletIstance.GetComponent<Rigidbody>().AddForce(direction * bulletSpeed, ForceMode.Impulse);
+            DestroyBullet(bulletIstance);
+             // Destroy bullet after 3 seconds
 
         }
 
@@ -73,21 +77,31 @@ namespace c03.exercise
             //In this function you need to check if the target is visible to the tower. This is achieved by checking the three below conditions
 
             //CHECK IF IS WITHIN VIEW DISTANCE
+            
 
+            // CHECK IF FALLS WITHIN VIEW ANGLE
             if (Vector3.Angle(transform.forward, target.transform.position - transform.position) > viewAngle)
             {
+                Debug.Log("Target is out of view angle");
                 return false;
+
+
             }
-            if (Physics.Raycast(transform.position, target.transform.position - transform.position, obstacleLayer, viewDistance))
+            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.red);
+            if (Physics.Raycast(transform.position, target.transform.position - transform.position, 100f,obstacleLayer.value))
             {
-                Debug.Log("Obstacle in the way");
+                Debug.Log("Hit block");
                 return false;
             }
-            //CHECK IF FALLS WITHIN VIEW ANGLE
-
-            //CHECK IF THERE ARE NO OBSTACLES
-
+            
+            
             return true;
+            
+
+// CHECK IF THERE ARE NO OBSTACLES
+            
+
+            
         }
 
         private void PointTarget(/* Some varialbes...*/)
@@ -95,6 +109,15 @@ namespace c03.exercise
             //Rotate the tower in order to always face the target
             transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
         }
+
+        private void DestroyBullet(GameObject bulletIstance)
+        {
+            Destroy(bulletIstance, 3f);
+            
+            
+        }
+        
     }
+    
 }
 

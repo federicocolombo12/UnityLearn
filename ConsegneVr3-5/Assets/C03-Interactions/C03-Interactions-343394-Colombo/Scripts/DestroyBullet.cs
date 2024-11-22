@@ -1,12 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyBullet : MonoBehaviour
 {
-    private void Update()
+    private void OnCollisionEnter(Collision other)
     {
-        
+        Destroy(gameObject);
     }
-    
 }
