@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public GameObject[] enemyArray;
     public bool isDead;
     private SpriteRenderer playerSprite;
+    private SpriteRenderer powerUpSprite;
     private Animator playerAnim;
     private float projectileSpawn = 1f;
     
@@ -28,7 +29,8 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         playerSprite = GetComponent<SpriteRenderer>();
         playerAnim = GetComponent<Animator>();
-        
+        powerUpSprite = GameObject.Find("SelectionRing_06").GetComponent<SpriteRenderer>();
+        powerUpSprite.enabled = false;
     }
 
     // Update is called once per frame
@@ -133,7 +135,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator PowerUpTimer()
     {
         yield return new WaitForSeconds(5);
-        isPowerupActive = false;
+        powerUpSprite.enabled = false;
         for (int i = 0; i < enemyArray.Length; i++)
         {
             Enemy enemy = enemyArray[i].GetComponent<Enemy>();
@@ -144,7 +146,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("PowerUp"))
         {
-            isPowerupActive = true;
+            powerUpSprite.enabled = true;
             Destroy(collision.gameObject);
 
             // Reduce speed of all enemies by half
