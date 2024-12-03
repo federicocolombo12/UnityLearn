@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer powerUpSprite;
     private Animator playerAnim;
     private float projectileSpawn = 1f;
+    private GameManager gameManager;
     
 
     void Start()
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
         playerAnim = GetComponent<Animator>();
         powerUpSprite = GameObject.Find("SelectionRing_06").GetComponent<SpriteRenderer>();
         powerUpSprite.enabled = false;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -53,10 +55,10 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("You're Dead!!!"); 
-            isDead=true;
-            playerAnim.SetBool("isDead", true);
+            PlayerDeath();
+            gameManager.ChangeState(GameManager.GameState.GameOver);
         }
+        
     }
 
     void PlayerMovement()
@@ -157,5 +159,11 @@ public class PlayerController : MonoBehaviour
             }
             StartCoroutine(PowerUpTimer());
         }
+    }
+    void PlayerDeath()
+    {
+        isDead = true;
+        playerAnim.SetBool("isDead", true);
+        
     }
 }
