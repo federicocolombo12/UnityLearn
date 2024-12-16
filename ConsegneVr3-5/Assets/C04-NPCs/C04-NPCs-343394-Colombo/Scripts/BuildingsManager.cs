@@ -17,6 +17,7 @@ namespace c04.exercise
         {
             if(Instance == null)
                 Instance = this;
+            _buildings = FindObjectsOfType<Building>();
         }
 
         public Building GetBuilding(BuildingType type)

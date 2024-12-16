@@ -23,33 +23,45 @@ namespace c04.exercise
             Adult,
             Elder
         }
-        
+
         [SerializeField] private PersonType _personType;
         [SerializeField] private float _secondsInPlace;
-        
+
         private Building _house;
         private NavMeshAgent _agent;
-        
-        private PersonState[] _activityOrder = {PersonState.Rest, PersonState.Work, PersonState.Leisure};
+
+        private PersonState[] _activityOrder = { PersonState.Rest, PersonState.Work, PersonState.Leisure };
         private int _currentActivityIndex = 0;
-        private PersonState _currentPersonState;
-        private Building _currentBuilding = null;
+        [SerializeField] private PersonState _currentPersonState;
+        private Transform startingPos;
+        private Building _currentBuilding;
         private Building _destinationBuilding;
         private Vector3 _destinationPosition;
         private float _timeAtPlaceTimer;
 
         private void Awake()
         {
-            _currentPersonState = PersonState.GoToDestination;
-            _destinationBuilding = BuildingsManager.Instance.GetBuilding(BuildingType.Park);
-            _destinationPosition = _destinationBuilding.GetRandomPosition();
             _agent = GetComponent<NavMeshAgent>();
-            _agent.SetDestination(_destinationPosition);
+            if (_agent == null)
+            {
+                Debug.LogError("NavMeshAgent non trovato!");
+                return;
+            }
+
+            _house = BuildingsManager.Instance.GetBuilding(BuildingType.House);
+            if (_house == null)
+            {
+                Debug.LogError("Building di tipo House non trovato!");
+                return;
+            }
+
+            _currentBuilding = _house;
+            _currentPersonState = PersonState.Rest;
         }
 
         private void Start()
         {
-            _currentPersonState = GetStateForBuilding(_currentBuilding);
+            startingPos = this.transform;
         }
 
         private void Update()
@@ -75,106 +87,92 @@ namespace c04.exercise
                     Leisure();
                     break;
             }
-            {
-                
-            }
         }
 
         private void ReachDestination()
         {
-            _agent.SetDestination(_destinationBuilding.transform.position);
+            if (DestinationReached())
+            {
+                _currentPersonState = _activityOrder[_currentActivityIndex];
+                _timeAtPlaceTimer = 0;
+            }
         }
 
         private void Work()
         {
             UpdatePlaceTimer();
-            setDestinationBuilding(BuildingsManager.Instance.GetBuilding(BuildingType.Park));
         }
 
         private void Leisure()
         {
             UpdatePlaceTimer();
-            setDestinationBuilding(BuildingsManager.Instance.GetBuilding(BuildingType.House));
         }
 
         private void Rest()
         {
             UpdatePlaceTimer();
-            
-            if (_personType == PersonType.Student)
-            {
-                setDestinationBuilding(BuildingsManager.Instance.GetBuilding(BuildingType.University));
-            }
-
-            if (_personType == PersonType.Adult)
-            {
-                setDestinationBuilding(BuildingsManager.Instance.GetBuilding(BuildingType.Office));
-            }
-
-            if (_personType == PersonType.Elder)
-            {
-                setDestinationBuilding(BuildingsManager.Instance.GetBuilding(BuildingType.Library));
-            }
         }
 
         private void UpdatePlaceTimer()
         {
-            StartCoroutine(WaitCoroutine());
-        }
-        
-        private IEnumerator WaitCoroutine()
-        {
-            yield return new WaitForSeconds(_secondsInPlace);
-            _timeAtPlaceTimer = 0;
+            _timeAtPlaceTimer += Time.deltaTime;
+            if (_timeAtPlaceTimer >= _secondsInPlace)
+            {
+                _timeAtPlaceTimer = 0;
+                _currentActivityIndex = (_currentActivityIndex + 1) % _activityOrder.Length;
+                _currentPersonState = PersonState.GoToDestination;
+                _destinationBuilding = GetNextBuilding();
+                _destinationPosition = _destinationBuilding.GetRandomPosition();
+                _agent.SetDestination(_destinationPosition);
+            }
         }
 
         private void CheckTransition()
         {
-            if (DestinationReached())
+            if (_currentPersonState == PersonState.GoToDestination && DestinationReached())
             {
-                _currentActivityIndex = (_currentActivityIndex + 1) % _activityOrder.Length;
                 _currentPersonState = _activityOrder[_currentActivityIndex];
-                
+                _timeAtPlaceTimer = 0;
             }
         }
 
         private bool DestinationReached()
         {
-            //This if is commented to avoid compilation errors due to missing packages in your project.
-            //Once you have the AI Navigation package installed uncomment this method AND the varialbe _agent at the top of the script
-            //Use the if to check if the agent has reached its intended destination. 
-            // if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance && (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f))
-            // {
-            //     return true;
-            // }
-
             return (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance &&
                     (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f));
-
         }
-        
-        private PersonState GetStateForBuilding(Building building)
+
+        private Building GetNextBuilding()
         {
-            return building.Type switch
+            if (_currentActivityIndex == 0)
             {
-                BuildingType.House => PersonState.Rest,
-                BuildingType.University or BuildingType.Office or BuildingType.Library => PersonState.Work,
-                BuildingType.Park => PersonState.Leisure,
-                _ => throw new ArgumentOutOfRangeException()
-            };
+
+                return _house; // Torna alla casa di partenza alla fine del ciclo
+            }
+
+            switch (_activityOrder[_currentActivityIndex])
+            {
+                case PersonState.Rest:
+
+                    return _house;
+                case PersonState.Work:
+                    return _personType switch
+                    {
+                        PersonType.Student => BuildingsManager.Instance.GetBuilding(BuildingType.University),
+                        PersonType.Adult => BuildingsManager.Instance.GetBuilding(BuildingType.Office),
+                        PersonType.Elder => BuildingsManager.Instance.GetBuilding(BuildingType.Library),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                case PersonState.Leisure:
+                    return BuildingsManager.Instance.GetBuilding(BuildingType.Park);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
-        //This is a public method which can be used to assign a reference to the house
-        //which instantiated this person  
         public void AssignHouse(Building house)
         {
             _house = house;
         }
-        private void setDestinationBuilding(Building building)
-        {
-            _destinationBuilding = building;
-        }
-        
-        
     }
 }
