@@ -27,14 +27,17 @@ namespace c04.exercise
             for (int i = 0; i < _studentNumber; i++)
             {
                 Instantiate(_studentPrefab, GetRandomPosition(), Quaternion.identity);
+                _studentPrefab.GetComponent<Person>().AssignHouse(this);
             }
             for (int i=0; i<_adultNumber; i++)
             {
                 Instantiate(_adultPrefab, GetRandomPosition(), Quaternion.identity);
+                _adultPrefab.GetComponent<Person>().AssignHouse(this);
             }
             for (int i=0; i<_elderNumber; i++)
             {
                 Instantiate(_elderPrefab, GetRandomPosition(), Quaternion.identity);
+                _elderPrefab.GetComponent<Person>().AssignHouse(this);
             }
         }
     }

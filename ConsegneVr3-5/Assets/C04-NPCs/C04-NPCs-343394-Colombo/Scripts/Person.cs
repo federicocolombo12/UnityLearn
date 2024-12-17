@@ -27,13 +27,13 @@ namespace c04.exercise
         [SerializeField] private PersonType _personType;
         [SerializeField] private float _secondsInPlace;
 
-        private Building _house;
+        [SerializeField] private Building _house;
         private NavMeshAgent _agent;
 
         private PersonState[] _activityOrder = { PersonState.Rest, PersonState.Work, PersonState.Leisure };
         private int _currentActivityIndex = 0;
         [SerializeField] private PersonState _currentPersonState;
-        private Transform startingPos;
+        
         private Building _currentBuilding;
         private Building _destinationBuilding;
         private Vector3 _destinationPosition;
@@ -48,7 +48,7 @@ namespace c04.exercise
                 return;
             }
 
-            _house = BuildingsManager.Instance.GetBuilding(BuildingType.House);
+            
             if (_house == null)
             {
                 Debug.LogError("Building di tipo House non trovato!");
@@ -59,10 +59,7 @@ namespace c04.exercise
             _currentPersonState = PersonState.Rest;
         }
 
-        private void Start()
-        {
-            startingPos = this.transform;
-        }
+        
 
         private void Update()
         {
@@ -144,11 +141,7 @@ namespace c04.exercise
 
         private Building GetNextBuilding()
         {
-            if (_currentActivityIndex == 0)
-            {
-
-                return _house; // Torna alla casa di partenza alla fine del ciclo
-            }
+            
 
             switch (_activityOrder[_currentActivityIndex])
             {

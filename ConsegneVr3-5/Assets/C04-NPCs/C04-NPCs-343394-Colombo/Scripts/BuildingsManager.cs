@@ -7,7 +7,7 @@ namespace c04.exercise
 {
     public class BuildingsManager : MonoBehaviour
     {
-        private Building[] _buildings;
+        [SerializeField] private Building[] _buildings;
         
         //This is a very basic implementation of the Singleton Pattern.
         
@@ -22,6 +22,7 @@ namespace c04.exercise
 
         public Building GetBuilding(BuildingType type)
         {
+
             return _buildings.FirstOrDefault(b => b.Type == type);
         }
     }

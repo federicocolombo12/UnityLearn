@@ -30,8 +30,9 @@ public class SpawnScript : MonoBehaviour
         for (int i = 0; i < wave; i++)
         {
             Instantiate(enemyPrefab, GenerateSpawnPos(), enemyPrefab.transform.rotation);
-            Instantiate(powerUpPrefab, GenerateSpawnPos2(), powerUpPrefab.transform.rotation);
+            
         }
+        Instantiate(powerUpPrefab, GenerateSpawnPos2(), powerUpPrefab.transform.rotation);
     }
     Vector2 GenerateSpawnPos()
     {

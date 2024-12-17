@@ -356,6 +356,30 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1266895283536672360, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1266895283536672360, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2118389879696047144, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662276584585102434, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3866527654557867940, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3866527654557867940, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4622791962482016036, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -439,6 +463,18 @@ PrefabInstance:
     - target: {fileID: 6213749419983331201, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
       propertyPath: m_Name
       value: GameOver UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6213749419983331201, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104854963123295810, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144040614357990516, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -619,6 +655,18 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3815222804702282984, guid: f2595acdff04c47468d094f607ff4e3a, type: 3}
+      propertyPath: slashSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3815222804702282984, guid: f2595acdff04c47468d094f607ff4e3a, type: 3}
+      propertyPath: dashParticle
+      value: 
+      objectReference: {fileID: 19800000, guid: ab1112643ee572748b01dede71158272, type: 3}
+    - target: {fileID: 3815222804702282984, guid: f2595acdff04c47468d094f607ff4e3a, type: 3}
+      propertyPath: dashParticlePrefab
+      value: 
+      objectReference: {fileID: 19800000, guid: 5b6c2f68addb63847b151f0d41a9d3b1, type: 3}
     - target: {fileID: 4134864631378324925, guid: f2595acdff04c47468d094f607ff4e3a, type: 3}
       propertyPath: m_Name
       value: Player

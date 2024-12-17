@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Animator playerAnim;
     private float projectileSpawn = 1f;
     private GameManager gameManager;
+    [SerializeField] private ParticleSystem dashParticlePrefab;
     
 
     void Start()
@@ -85,11 +86,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Slash/Dash
-        if (Input.GetKeyDown(KeyCode.LeftShift) && slashCount < 1)
-        {
-            playerRB.AddForce(Vector2.right * slashSpeed * horizontalSpeed, ForceMode2D.Impulse);
-            slashCount++;
-        }
+        PlayerDash();
+        
         if (horizontalSpeed < 0)
         {
             playerSprite.flipX = true;
@@ -105,7 +103,19 @@ public class PlayerController : MonoBehaviour
         // Jump
         
     }
+    void PlayerDash() {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && slashCount < 1)
+        {
+            ParticleSystem dashParticle = Instantiate(dashParticlePrefab, transform.position, Quaternion.identity);
+            dashParticle.transform.parent = transform;
+            dashParticle.transform.localPosition = Vector3.zero;
+            playerRB.AddForce(Vector2.right * slashSpeed * horizontalSpeed, ForceMode2D.Impulse);
+            
+            slashCount++;
+            dashParticle.Play();
 
+        }
+    }
     void PlayerShoot()
 
     {
