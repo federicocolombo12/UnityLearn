@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
             playerRB.AddForce(Vector2.right * slashSpeed * horizontalSpeed, ForceMode2D.Impulse);
             
             slashCount++;
-            dashParticle.Play();
+            
 
         }
     }

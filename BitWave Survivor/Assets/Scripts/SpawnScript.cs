@@ -20,9 +20,10 @@ public class SpawnScript : MonoBehaviour
         enemyNumber = GameObject.FindGameObjectsWithTag("Enemy").Length;
         if (enemyNumber == 0)
         {
-            
+
             SpawnPrefab(wave);
             wave++;
+            
         }
     }
     void SpawnPrefab(int wave)

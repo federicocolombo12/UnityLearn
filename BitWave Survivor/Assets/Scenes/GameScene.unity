@@ -190,6 +190,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!223 &353522951 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1266895283536672360, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+  m_PrefabInstance: {fileID: 687100379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &486528869
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +473,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6213749419983331201, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
+      propertyPath: m_TagString
+      value: GameOverUI
+      objectReference: {fileID: 0}
     - target: {fileID: 7104854963123295810, guid: 6396ab4c36c59f346870e52fa5c2a715, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -631,6 +640,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6321337574885323886, guid: 60a6ba0067dd12a4a8acfbdbd026fc30, type: 3}
+      propertyPath: gameOverUi
+      value: 
+      objectReference: {fileID: 353522951}
+    - target: {fileID: 6321337574885323886, guid: 60a6ba0067dd12a4a8acfbdbd026fc30, type: 3}
       propertyPath: currentState
       value: 1
       objectReference: {fileID: 0}
@@ -657,7 +670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3815222804702282984, guid: f2595acdff04c47468d094f607ff4e3a, type: 3}
       propertyPath: slashSpeed
-      value: 50
+      value: 65.1
       objectReference: {fileID: 0}
     - target: {fileID: 3815222804702282984, guid: f2595acdff04c47468d094f607ff4e3a, type: 3}
       propertyPath: dashParticle

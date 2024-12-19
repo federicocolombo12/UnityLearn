@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public GameObject player;
     [SerializeField] Canvas gameOverUi;
+    [SerializeField] Canvas WaveUI;
     public enum GameState
     {
         MainMenu,
@@ -32,9 +33,12 @@ public class GameManager : MonoBehaviour
     {
         // Imposta lo stato iniziale del gioco
         ChangeState(GameState.MainMenu);
-        gameOverUi = GameObject.Find("GameOver UI").GetComponent<Canvas>();
+        
     }
-
+    private void Update()
+    {
+        gameOverUi = GameObject.FindGameObjectWithTag("GameOverUI").GetComponent<Canvas>();
+    }
     public void ChangeState(GameState newState)
     {
         currentState = newState;
@@ -47,6 +51,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 // Avvia il gioco
+
                 StartGame();
                 break;
             case GameState.Paused:
@@ -72,6 +77,8 @@ public class GameManager : MonoBehaviour
         // Logica per avviare il gioco
         // Ad esempio, caricare la scena di gioco
         Debug.Log("Inizia il gioco");
+        
+        gameOverUi.enabled = false;
         SceneManager.LoadScene("GameScene"); // Assicurati di avere una scena chiamata "GameScene"
     }
 
@@ -92,4 +99,5 @@ public class GameManager : MonoBehaviour
     {
         ChangeState(GameState.Playing);
     }
+    
 }
